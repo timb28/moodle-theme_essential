@@ -64,9 +64,7 @@ function theme_essential_set_logo($css, $logo) {
     if (is_null($replacement)) {
         $replacement = '';
     }
-
     $css = str_replace($tag, $replacement, $css);
-
     return $css;
 }
 
@@ -86,6 +84,9 @@ function theme_essential_pluginfile($course, $cm, $context, $filearea, $args, $f
     if ($context->contextlevel == CONTEXT_SYSTEM and $filearea === 'logo') {
         $theme = theme_config::load('essential');
         return $theme->setting_file_serve('logo', $args, $forcedownload, $options);
+    } else if ($context->contextlevel == CONTEXT_SYSTEM and $filearea === 'pagebackground') {
+        $theme = theme_config::load('essential');
+        return $theme->setting_file_serve('pagebackground', $args, $forcedownload, $options);
     } else if ($context->contextlevel == CONTEXT_SYSTEM and $filearea === 'slide1image') {
         $theme = theme_config::load('essential');
         return $theme->setting_file_serve('slide1image', $args, $forcedownload, $options);
@@ -98,9 +99,38 @@ function theme_essential_pluginfile($course, $cm, $context, $filearea, $args, $f
     } else if ($context->contextlevel == CONTEXT_SYSTEM and $filearea === 'slide4image') {
         $theme = theme_config::load('essential');
         return $theme->setting_file_serve('slide4image', $args, $forcedownload, $options);
+    } else if ($context->contextlevel == CONTEXT_SYSTEM and $filearea === 'marketing1image') {
+        $theme = theme_config::load('essential');
+        return $theme->setting_file_serve('marketing1image', $args, $forcedownload, $options);
+    } else if ($context->contextlevel == CONTEXT_SYSTEM and $filearea === 'marketing2image') {
+        $theme = theme_config::load('essential');
+        return $theme->setting_file_serve('marketing2image', $args, $forcedownload, $options);
+    } else if ($context->contextlevel == CONTEXT_SYSTEM and $filearea === 'marketing3image') {
+        $theme = theme_config::load('essential');
+        return $theme->setting_file_serve('marketing3image', $args, $forcedownload, $options);
     } else {
         send_file_not_found();
     }
+}
+
+/**
+ * get_performance_output() override get_peformance_info()
+ *  in moodlelib.php. Returns a string
+ * values ready for use.
+ *
+ * @return string
+ */
+function essential_performance_output($param) {
+	
+    $html = '<div class="container-fluid performanceinfo"><div class="row-fluid"><h2>Performance Information</h2></div><div class="row-fluid">';
+	if (isset($param['realtime'])) $html .= '<div class="span3"><a href="#"><var id="load">'.$param['realtime'].' secs</var><span>Load Time</span></a></div>';
+	if (isset($param['memory_total'])) $html .= '<div class="span3"><a href="#"><var id="memory">'.display_size($param['memory_total']).'</var><span>Memory Used</span></a></div>';
+    if (isset($param['includecount'])) $html .= '<div class="span3"><a href="#"><var id="included">'.$param['includecount'].' Files </var><span>Included</span></a></div>';
+    if (isset($param['dbqueries'])) $html .= '<div class="span3"><a href="#"><var id="db">'.$param['dbqueries'].' </var><span>DB Read/Write</span></a></div>';
+    $html .= '</div>';
+    $html .= '</div>';
+
+    return $html;
 }
 
 /**
@@ -140,6 +170,56 @@ function theme_essential_process_css($css, $theme) {
     }
     $css = theme_essential_set_themehovercolor($css, $themehovercolor);
     
+    // Set the footer color.
+    if (!empty($theme->settings->footercolor)) {
+        $footercolor = $theme->settings->footercolor;
+    } else {
+        $footercolor = null;
+    }
+    $css = theme_essential_set_footercolor($css, $footercolor);
+    
+    // Set the footer seperator color.
+    if (!empty($theme->settings->footersepcolor)) {
+        $footersepcolor = $theme->settings->footersepcolor;
+    } else {
+        $footersepcolor = null;
+    }
+    $css = theme_essential_set_footersepcolor($css, $footersepcolor);
+    
+    // Set the footer text color.
+    if (!empty($theme->settings->footertextcolor)) {
+        $footertextcolor = $theme->settings->footertextcolor;
+    } else {
+        $footertextcolor = null;
+    }
+    $css = theme_essential_set_footertextcolor($css, $footertextcolor);
+    
+    // Set the footer URL color.
+    if (!empty($theme->settings->footerurlcolor)) {
+        $footerurlcolor = $theme->settings->footerurlcolor;
+    } else {
+        $footerurlcolor = null;
+    }
+    $css = theme_essential_set_footerurlcolor($css, $footerurlcolor);
+    
+    // Set the footer hover color.
+    if (!empty($theme->settings->footerhovercolor)) {
+        $footerhovercolor = $theme->settings->footerhovercolor;
+    } else {
+        $footerhovercolor = null;
+    }
+    $css = theme_essential_set_footerhovercolor($css, $footerhovercolor);
+
+
+// Set the footer heading color.
+    if (!empty($theme->settings->footerheadingcolor)) {
+        $footerheadingcolor = $theme->settings->footerheadingcolor;
+    } else {
+        $footerheadingcolor = null;
+    }
+    $css = theme_essential_set_footerheadingcolor($css, $footerheadingcolor);
+
+    
     // Set the navbar seperator.
     if (!empty($theme->settings->navbarsep)) {
         $navbarsep = $theme->settings->navbarsep;
@@ -159,28 +239,80 @@ function theme_essential_process_css($css, $theme) {
     // Set the background image for the logo.
     $logo = $theme->setting_file_url('logo', 'logo');
     $css = theme_essential_set_logo($css, $logo);
-
+    
+    // Set the background image for the page.
+    $setting = 'pagebackground';
+    $pagebackground = $theme->setting_file_url($setting, $setting);
+    $css = theme_essential_set_pagebackground($css, $pagebackground, $setting);
+    
     // Set Slide Images.
     $setting = 'slide1image';
-    // Creates the url for image file which is then served up by 'theme_essential_pluginfile' below.
-    $slideimage = $theme->setting_file_url($setting, $setting);
+    if (!empty($theme->settings->slide1image)) {
+    	$slideimage = $theme->setting_file_url($setting, $setting);
+    } else {
+        $slideimage = null;
+    }
     $css = theme_essential_set_slideimage($css, $slideimage, $setting);
 
     $setting = 'slide2image';
-    $slideimage = $theme->setting_file_url($setting, $setting);
+    if (!empty($theme->settings->slide2image)) {
+    	$slideimage = $theme->setting_file_url($setting, $setting);
+    } else {
+        $slideimage = null;
+    }
     $css = theme_essential_set_slideimage($css, $slideimage, $setting);
 
     $setting = 'slide3image';
-    $slideimage = $theme->setting_file_url($setting, $setting);
+    if (!empty($theme->settings->slide3image)) {
+    	$slideimage = $theme->setting_file_url($setting, $setting);
+    } else {
+        $slideimage = null;
+    }
     $css = theme_essential_set_slideimage($css, $slideimage, $setting);
 
     $setting = 'slide4image';
-    $slideimage = $theme->setting_file_url($setting, $setting);
+    if (!empty($theme->settings->slide4image)) {
+    	$slideimage = $theme->setting_file_url($setting, $setting);
+    } else {
+        $slideimage = null;
+    }
     $css = theme_essential_set_slideimage($css, $slideimage, $setting);
     
+    // Set Marketing Image Height.
+    if (!empty($theme->settings->marketingheight)) {
+        $marketingheight = $theme->settings->marketingheight;
+    } else {
+        $marketingheight = null;
+    }
+    $css = theme_essential_set_marketingheight($css, $marketingheight);
+    
+    // Set Marketing Images.
+    $setting = 'marketing1image';
+    if (!empty($theme->settings->marketing1image)) {
+    	$marketingimage = $theme->setting_file_url($setting, $setting);
+    } else {
+        $marketingimage = null;
+    }
+    $css = theme_essential_set_marketingimage($css, $marketingimage, $setting);
+    
+    $setting = 'marketing2image';
+    if (!empty($theme->settings->marketing2image)) {
+    	$marketingimage = $theme->setting_file_url($setting, $setting);
+    } else {
+        $marketingimage = null;
+    }
+    $css = theme_essential_set_marketingimage($css, $marketingimage, $setting);
+    
+    $setting = 'marketing3image';
+    if (!empty($theme->settings->marketing3image)) {
+    	$marketingimage = $theme->setting_file_url($setting, $setting);
+    } else {
+        $marketingimage = null;
+    }
+    $css = theme_essential_set_marketingimage($css, $marketingimage, $setting);
+
     // Set the font path.
     $css = theme_essential_set_fontwww($css);
-
     return $css;
 }
 
@@ -205,6 +337,66 @@ function theme_essential_set_themehovercolor($css, $themehovercolor) {
     return $css;
 }
 
+function theme_essential_set_footercolor($css, $footercolor) {
+    $tag = '[[setting:footercolor]]';
+    $replacement = $footercolor;
+    if (is_null($replacement)) {
+        $replacement = '#000000';
+    }
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+function theme_essential_set_footertextcolor($css, $footertextcolor) {
+    $tag = '[[setting:footertextcolor]]';
+    $replacement = $footertextcolor;
+    if (is_null($replacement)) {
+        $replacement = '#DDDDDD';
+    }
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+function theme_essential_set_footerurlcolor($css, $footerurlcolor) {
+    $tag = '[[setting:footerurlcolor]]';
+    $replacement = $footerurlcolor;
+    if (is_null($replacement)) {
+        $replacement = '#BBBBBB';
+    }
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+function theme_essential_set_footerhovercolor($css, $footerhovercolor) {
+    $tag = '[[setting:footerhovercolor]]';
+    $replacement = $footerhovercolor;
+    if (is_null($replacement)) {
+        $replacement = '#FFFFFF';
+    }
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+function theme_essential_set_footerheadingcolor($css, $footerheadingcolor) {
+    $tag = '[[setting:footerheadingcolor]]';
+    $replacement = $footerheadingcolor;
+    if (is_null($replacement)) {
+        $replacement = '#CCCCCC';
+    }
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+function theme_essential_set_footersepcolor($css, $footersepcolor) {
+    $tag = '[[setting:footersepcolor]]';
+    $replacement = $footersepcolor;
+    if (is_null($replacement)) {
+        $replacement = '#313131';
+    }
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
 function theme_essential_set_navbarsep($css, $navbarsep) {
     $tag = '[[setting:navbarsep]]';
     $replacement = $navbarsep;
@@ -215,24 +407,48 @@ function theme_essential_set_navbarsep($css, $navbarsep) {
     return $css;
 }
 
+function theme_essential_set_pagebackground($css, $pagebackground, $setting) {
+    global $OUTPUT;
+    $tag = '[[setting:pagebackground]]';
+    $replacement = $pagebackground;
+    if (is_null($replacement)) {
+        // Get default image from themes 'bg' folder of the name in $setting.
+        $replacement = $OUTPUT->pix_url('bg/body', 'theme');
+    }
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+
 function theme_essential_set_slideimage($css, $slideimage, $setting) {
     global $OUTPUT;
     $tag = '[[setting:'.$setting.']]';
     $replacement = $slideimage;
+    $css = str_replace($tag, $replacement, $css);
+    return $css;
+}
+
+function theme_essential_set_marketingheight($css, $marketingheight) {
+    $tag = '[[setting:marketingheight]]';
+    $replacement = $marketingheight;
     if (is_null($replacement)) {
-        // Get default image from themes 'images' folder of the name in $setting.
-        $replacement = $OUTPUT->pix_url('images/'.$setting, 'theme');
+        $replacement = 100;
     }
+    $css = str_replace($tag, $replacement.'px', $css);
+    return $css;
+}
+
+function theme_essential_set_marketingimage($css, $marketingimage, $setting) {
+    global $OUTPUT;
+    $tag = '[[setting:'.$setting.']]';
+    $replacement = $marketingimage;
     $css = str_replace($tag, $replacement, $css);
     return $css;
 }
 
 function theme_essential_page_init(moodle_page $page) {
     $page->requires->jquery();
-    // Generates frontpage slideshow.
-    $page->requires->jquery_plugin('modernizr', 'theme_essential');
     $page->requires->jquery_plugin('cslider', 'theme_essential');
-    $page->requires->jquery_plugin('custom', 'theme_essential');
-    // Generates page loading throbber.
-    $page->requires->jquery_plugin('spin', 'theme_essential'); 
+    $page->requires->jquery_plugin('custom', 'theme_essential'); 
+    $page->requires->jquery_plugin('modernizr', 'theme_essential');  
 }

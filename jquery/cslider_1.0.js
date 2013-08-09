@@ -14,7 +14,7 @@
 	$.Slider.defaults 		= {
 		current		: 0, 	// index of current slide
 		bgincrement	: 50,	// increment the bg position (parallax effect) when sliding
-		autoplay	: false,// slideshow on / off
+		autoplay	: true,// slideshow on / off
 		interval	: 4000  // time between transitions
     };
 	
@@ -78,8 +78,7 @@
 			
 			var $current	= this.$slides.eq( this.current ), $next, _self = this;
 			
-			// if( this.current === page || this.isAnimating ) return false; // Opera fix in v0.5.1
-			if( this.current === page ) return false;
+			if( this.current === page || this.isAnimating ) return false;
 			
 			this.isAnimating	= true;
 			
@@ -180,20 +179,31 @@
 			}, this.options.interval );
 		
 		},
+		page				: function( idx ) {
+			
+			if( idx >= this.slidesCount || idx < 0 ) {
+			
+				return false;
+			
+			}
+			
+			if( this.options.autoplay ) {
+			
+				clearTimeout( this.slideshow );
+				this.options.autoplay	= false;
+			
+			}
+			
+			this._navigate( idx );
+			
+		},
 		_loadEvents			: function() {
 			
 			var _self = this;
 			
 			this.$pages.on( 'click.cslider', function( event ) {
 				
-				if( _self.options.autoplay ) {
-				
-					clearTimeout( _self.slideshow );
-					_self.options.autoplay	= false;
-				
-				}
-				
-				_self._navigate( $(this).index() );
+				_self.page( $(this).index() );
 				return false;
 				
 			});

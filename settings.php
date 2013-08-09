@@ -77,6 +77,18 @@ defined('MOODLE_INTERNAL') || die;
     $temp->add($setting);
     
     // Navbar Seperator.
+    $name = 'theme_essential/perfinfo';
+    $title = get_string('perfinfo' , 'theme_essential');
+    $description = get_string('perfinfodesc', 'theme_essential');
+    $perf_max = get_string('perf_max', 'theme_essential');
+    $perf_min = get_string('perf_min', 'theme_essential');
+    $default = 'min';
+    $choices = array('min'=>$perf_min, 'max'=>$perf_max);
+    $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    // Navbar Seperator.
     $name = 'theme_essential/navbarsep';
     $title = get_string('navbarsep' , 'theme_essential');
     $description = get_string('navbarsepdesc', 'theme_essential');
@@ -91,27 +103,7 @@ defined('MOODLE_INTERNAL') || die;
     $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
-
-    // Main theme background colour setting.
-    $name = 'theme_essential/themecolor';
-    $title = get_string('themecolor', 'theme_essential');
-    $description = get_string('themecolordesc', 'theme_essential');
-    $default = '#30add1';
-    $previewconfig = null;
-    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
-    $setting->set_updatedcallback('theme_reset_all_caches');
-    $temp->add($setting);
-
-    // Main theme Hover colour setting.
-    $name = 'theme_essential/themehovercolor';
-    $title = get_string('themehovercolor', 'theme_essential');
-    $description = get_string('themehovercolordesc', 'theme_essential');
-    $default = '#29a1c4';
-    $previewconfig = null;
-    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
-    $setting->set_updatedcallback('theme_reset_all_caches');
-    $temp->add($setting);
-
+    
     // Copyright setting.
     $name = 'theme_essential/copyright';
     $title = get_string('copyright', 'theme_essential');
@@ -137,6 +129,103 @@ defined('MOODLE_INTERNAL') || die;
     $setting = new admin_setting_configtextarea($name, $title, $description, $default);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
+    
+    $ADMIN->add('theme_essential', $temp);
+    
+	/* Color Settings */
+    $temp = new admin_settingpage('theme_essential_color', get_string('colorheading', 'theme_essential'));
+    $temp->add(new admin_setting_heading('theme_essential_color', get_string('colorheadingsub', 'theme_essential'),
+            format_text(get_string('colordesc' , 'theme_essential'), FORMAT_MARKDOWN)));
+
+    // Background Image.
+    $name = 'theme_essential/pagebackground';
+    $title = get_string('pagebackground', 'theme_essential');
+    $description = get_string('pagebackgrounddesc', 'theme_essential');
+    $setting = new admin_setting_configstoredfile($name, $title, $description, 'pagebackground');
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    // Main theme colour setting.
+    $name = 'theme_essential/themecolor';
+    $title = get_string('themecolor', 'theme_essential');
+    $description = get_string('themecolordesc', 'theme_essential');
+    $default = '#30add1';
+    $previewconfig = null;
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+
+    // Main theme Hover colour setting.
+    $name = 'theme_essential/themehovercolor';
+    $title = get_string('themehovercolor', 'theme_essential');
+    $description = get_string('themehovercolordesc', 'theme_essential');
+    $default = '#29a1c4';
+    $previewconfig = null;
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    // Footer background colour setting.
+    $name = 'theme_essential/footercolor';
+    $title = get_string('footercolor', 'theme_essential');
+    $description = get_string('footercolordesc', 'theme_essential');
+    $default = '#000000';
+    $previewconfig = null;
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    // Footer text colour setting.
+    $name = 'theme_essential/footertextcolor';
+    $title = get_string('footertextcolor', 'theme_essential');
+    $description = get_string('footertextcolordesc', 'theme_essential');
+    $default = '#DDDDDD';
+    $previewconfig = null;
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    // Footer Block Heading colour setting.
+    $name = 'theme_essential/footerheadingcolor';
+    $title = get_string('footerheadingcolor', 'theme_essential');
+    $description = get_string('footerheadingcolordesc', 'theme_essential');
+    $default = '#CCCCCC';
+    $previewconfig = null;
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    // Footer Seperator colour setting.
+    $name = 'theme_essential/footersepcolor';
+    $title = get_string('footersepcolor', 'theme_essential');
+    $description = get_string('footersepcolordesc', 'theme_essential');
+    $default = '#313131';
+    $previewconfig = null;
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    // Footer URL colour setting.
+    $name = 'theme_essential/footerurlcolor';
+    $title = get_string('footerurlcolor', 'theme_essential');
+    $description = get_string('footerurlcolordesc', 'theme_essential');
+    $default = '#BBBBBB';
+    $previewconfig = null;
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    // Footer URL hover colour setting.
+    $name = 'theme_essential/footerhovercolor';
+    $title = get_string('footerhovercolor', 'theme_essential');
+    $description = get_string('footerhovercolordesc', 'theme_essential');
+    $default = '#FFFFFF';
+    $previewconfig = null;
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+
+
 
  	$ADMIN->add('theme_essential', $temp);
  
@@ -327,6 +416,15 @@ defined('MOODLE_INTERNAL') || die;
     $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
+    
+    // Marketing Spot Image Height
+	$name = 'theme_essential/marketingheight';
+	$title = get_string('marketingheight','theme_essential');
+	$description = get_string('marketingheightdesc', 'theme_essential');
+	$default = 100;
+	$choices = array(50, 100, 150, 200, 250, 300);
+	$setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
+	$temp->add($setting);
 	
 	//Marketing Spot One.
 	$name = 'theme_essential/marketing1';
@@ -342,6 +440,13 @@ defined('MOODLE_INTERNAL') || die;
     $description = get_string('marketing1icondesc', 'theme_essential');
     $default = 'star';
     $setting = new admin_setting_configtext($name, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    $name = 'theme_essential/marketing1image';
+    $title = get_string('marketing1image', 'theme_essential');
+    $description = get_string('marketing1imagedesc', 'theme_essential');
+    $setting = new admin_setting_configstoredfile($name, $title, $description, 'marketing1image');
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
     
@@ -386,6 +491,13 @@ defined('MOODLE_INTERNAL') || die;
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
     
+    $name = 'theme_essential/marketing2image';
+    $title = get_string('marketing2image', 'theme_essential');
+    $description = get_string('marketing2imagedesc', 'theme_essential');
+    $setting = new admin_setting_configstoredfile($name, $title, $description, 'marketing2image');
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
     $name = 'theme_essential/marketing2content';
     $title = get_string('marketing2content', 'theme_essential');
     $description = get_string('marketing2contentdesc', 'theme_essential');
@@ -427,6 +539,13 @@ defined('MOODLE_INTERNAL') || die;
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
     
+    $name = 'theme_essential/marketing3image';
+    $title = get_string('marketing3image', 'theme_essential');
+    $description = get_string('marketing3imagedesc', 'theme_essential');
+    $setting = new admin_setting_configstoredfile($name, $title, $description, 'marketing3image');
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
     $name = 'theme_essential/marketing3content';
     $title = get_string('marketing3content', 'theme_essential');
     $description = get_string('marketing3contentdesc', 'theme_essential');
@@ -460,6 +579,15 @@ defined('MOODLE_INTERNAL') || die;
 	$temp->add(new admin_setting_heading('theme_essential_social', get_string('socialheadingsub', 'theme_essential'),
             format_text(get_string('socialdesc' , 'theme_essential'), FORMAT_MARKDOWN)));
 	
+    // Website url setting.
+    $name = 'theme_essential/website';
+    $title = get_string('website', 'theme_essential');
+    $description = get_string('websitedesc', 'theme_essential');
+    $default = '';
+    $setting = new admin_setting_configtext($name, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
     // Facebook url setting.
     $name = 'theme_essential/facebook';
     $title = get_string('facebook', 'theme_essential');
@@ -496,6 +624,24 @@ defined('MOODLE_INTERNAL') || die;
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
     
+    // Pinterest url setting.
+    $name = 'theme_essential/pinterest';
+    $title = get_string('pinterest', 'theme_essential');
+    $description = get_string('pinterestdesc', 'theme_essential');
+    $default = '';
+    $setting = new admin_setting_configtext($name, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    // Instagram url setting.
+    $name = 'theme_essential/instagram';
+    $title = get_string('instagram', 'theme_essential');
+    $description = get_string('instagramdesc', 'theme_essential');
+    $default = '';
+    $setting = new admin_setting_configtext($name, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
     // YouTube url setting.
     $name = 'theme_essential/youtube';
     $title = get_string('youtube', 'theme_essential');
@@ -505,15 +651,46 @@ defined('MOODLE_INTERNAL') || die;
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
     
-    // Flickr url setting.
-    $name = 'theme_essential/flickr';
-    $title = get_string('flickr', 'theme_essential');
-    $description = get_string('flickrdesc', 'theme_essential');
+    // Skype url setting.
+    $name = 'theme_essential/skype';
+    $title = get_string('skype', 'theme_essential');
+    $description = get_string('skypedesc', 'theme_essential');
+    $default = '';
+    $setting = new admin_setting_configtext($name, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+ 
+    // VKontakte url setting.
+    $name = 'theme_essential/vk';
+    $title = get_string('vk', 'theme_essential');
+    $description = get_string('vkdesc', 'theme_essential');
+    $default = '';
+    $setting = new admin_setting_configtext($name, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting); 
+    
+    $ADMIN->add('theme_essential', $temp);
+    
+    $temp = new admin_settingpage('theme_essential_mobileapps', get_string('mobileappsheading', 'theme_essential'));
+	$temp->add(new admin_setting_heading('theme_essential_mobileapps', get_string('mobileappsheadingsub', 'theme_essential'),
+            format_text(get_string('mobileappsdesc' , 'theme_essential'), FORMAT_MARKDOWN)));
+    // Android App url setting.
+    $name = 'theme_essential/android';
+    $title = get_string('android', 'theme_essential');
+    $description = get_string('androiddesc', 'theme_essential');
     $default = '';
     $setting = new admin_setting_configtext($name, $title, $description, $default);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
     
+    // iOS App url setting.
+    $name = 'theme_essential/ios';
+    $title = get_string('ios', 'theme_essential');
+    $description = get_string('iosdesc', 'theme_essential');
+    $default = '';
+    $setting = new admin_setting_configtext($name, $title, $description, $default);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
     
     $ADMIN->add('theme_essential', $temp);
 
