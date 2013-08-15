@@ -90,11 +90,6 @@ a:hover{
     background: url([[pix:theme|bg/dot]]) repeat-x;
 }
 
-.spinner {
-	color: [[setting:themecolor]];
-	background: #f5f5f5 url('../images/bg.jpg') no-repeat left top;
-}
-
 /* @end */
 
 /* @end */
@@ -380,6 +375,11 @@ ul.breadcrumb li:last-child:after {
     background: url([[pix:theme|bg/dot]]) bottom repeat-x;
 }
 
+.course-content ul.topics li.section.main.clearfix.current {
+	box-shadow:0px 0px 10px [[setting:themecolor]];
+	border-radius: 5px;
+}
+
 h2.pagetitle {
     padding: 0px;
     margin: 0px;
@@ -407,6 +407,8 @@ h2.pagetitle span {
 .editing .left.side {
     display: inline;
 }
+
+
 
 /* @end */
 
@@ -681,6 +683,18 @@ table#greyboxleft h2 {
 	content: "\f07c ";
 	color: #999;
 	margin-right: 5px;
+}
+
+.block_navigation.block li.depth_1 .tree_item.branch:before {
+	content: "\f015 ";
+}
+
+.block_navigation.block li.depth_2 .tree_item.branch:before {
+	content: "\f07b ";
+}
+
+.block_navigation.block li.depth_2 {
+	margin-left: -20px;
 }
 
 .collapsed .tree_item.branch:before { 
@@ -1606,7 +1620,7 @@ img.profilepicture
 clear: left;
 display: block;
 float: left;
-width: 68%;
+width: 67%;
 }
 
 #page-mod-quiz-edit .questionbankwindow.block div.header {
@@ -1633,6 +1647,24 @@ width: 68%;
 }
 /* @end */
 
-/* Custom CSS Settings
--------------------------*/
+/**
+ * editicons CSS
+ * This adds the special editicons css in editicons.css if the setting is enabled.
+ */
+
+[[setting:editicons]]
+
+/**
+ * autohide CSS
+ * This adds the special autohide css in autohide.css if the setting is enabled.
+ */
+
+[[setting:autohide]]
+
+/**
+ * Custom CSS
+ * This is the very last piece of CSS loaded, so if something looks weird,
+ * try removing your custom CSS from the theme settings page.
+ */
+
 [[setting:customcss]]

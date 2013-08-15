@@ -58,7 +58,7 @@ defined('MOODLE_INTERNAL') || die;
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
     
-    // Toggle custom or standard layout.
+    // Custom or standard layout.
     $name = 'theme_essential/layout';
     $title = get_string('layout', 'theme_essential');
     $description = get_string('layoutdesc', 'theme_essential');
@@ -67,16 +67,23 @@ defined('MOODLE_INTERNAL') || die;
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
     
-    // Toggle loading spinner.
-    $name = 'theme_essential/spinner';
-    $title = get_string('spinner', 'theme_essential');
-    $description = get_string('spinnerdesc', 'theme_essential');
-    $default = false;
-    $setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
-    $setting->set_updatedcallback('theme_reset_all_caches');
+    //Include the Editicons css rules
+    $name = 'theme_essential/editicons';
+    $visiblename = get_string('editicons', 'theme_essential');
+    $title = get_string('editicons', 'theme_essential');
+    $description = get_string('editiconsdesc', 'theme_essential');
+    $setting = new admin_setting_configcheckbox($name, $visiblename, $description, 1);
     $temp->add($setting);
     
-    // Navbar Seperator.
+    //Include the Autohide css rules
+    $name = 'theme_essential/autohide';
+    $visiblename = get_string('autohide', 'theme_essential');
+    $title = get_string('autohide', 'theme_essential');
+    $description = get_string('autohidedesc', 'theme_essential');
+    $setting = new admin_setting_configcheckbox($name, $visiblename, $description, 1);
+    $temp->add($setting);
+    
+    // Performance Information Display.
     $name = 'theme_essential/perfinfo';
     $title = get_string('perfinfo' , 'theme_essential');
     $description = get_string('perfinfodesc', 'theme_essential');
