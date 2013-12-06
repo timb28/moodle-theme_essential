@@ -460,6 +460,8 @@ a#button:hover {
 
 /* @end */
 
+/* @group Back to top */
+
 .back-to-top{
     color:[[setting:themecolor]];
 }
@@ -467,6 +469,8 @@ a#button:hover {
 .back-to-top:hover{
     color:[[setting:themehovercolor]];
 }
+
+/* @end */
 
 /* @group Font Loading */
 
@@ -489,6 +493,10 @@ body,
 /* @end */
 
 /* @end */
+
+.drag-handle::before {
+	color: [[setting:themecolor]];
+}
 
 /**
  * editicons CSS

@@ -392,6 +392,11 @@ h2.pagetitle span {
     font-weight: normal;
 }
 
+.listitem .fa-circle {
+	margin-right: 10px;
+	font-size: .5em;
+}
+
 /* @group Course Footer */
 
 #section_footer {
