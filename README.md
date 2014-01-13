@@ -16,6 +16,40 @@ Cool things to know about the theme.
  - The entire color scheme can be modified with theme settings (like on [Rocket](https://moodle.org/plugins/view.php?plugin=theme_rocket))
  - The homepage main area is just a label. The theme will ship with custom classes that you can set for tables and links to modify their formatting. No knowledge of code is needed as you can use the text editor to do this. Documentation will be provided outlining what the additional classes are.
  
+ New in 2.6.2
+ ========================
+ - FIX: Numerous CSS fixes
+ - FIX: Third level dropdown in custom menu now works
+ - FIX: iOS7 custom menu now works when changed to a sing dropdown in portrait view
+ - FIX: Social networking icons now line up properly
+ - FIX: GoogleFonts will now load in HTTPS setups
+ - NEW: Frontpage content now goes full width if all blocks removed.
+ 
+  New in 2.6.1
+ ========================
+ - NEW: MAJOR UPDATES for 2.6 compatibility.
+ - NEW: Moved layouts to a more "moodle standard" 1, 2 and 3 column layout.
+ - NEW: Can now add three columns of blocks to middle of the homepage under marketing spots.
+ - NEW: Theme setting added to allow admins to align frontage blocks to the left or right.
+ - NEW: Two designs for the slideshow available. One with image to the right, other with a background image.
+ - UPDATE: [Font Awesome 4.0.3](http://fontawesome.io/) now supported.
+ - UPDATE: Using new font setting to dynamically load the fonts.
+ - UPDATE: Removing autohide feature as no longer needed in Moodle 2.6
+ - FIX: Guest users no longer get "my courses" or "dashboard" dropdown menus.
+ - FIX: Nav Menu generates cleanly on IE.
+ - FIX: Gradebook now displays no blocks to maximise available space.
+ - FIX: Numerous CSS fixes and cleanup
+ 
+ New in 2.6
+ ========================
+ - Added ability to select from 21 preset Google Font combinations or disable their use completely.
+ - Now includes additional Bootstrap JS plugins to allow for more dynamic formatting as shown on http://getbootstrap.com/javascript/
+ - New Frontpage Slideshow settings to allow to display; all the time, only before login, only after login or never.
+ - New Marketing Spots settings to allow to display; all the time, only before login, only after login or never.
+ - Course Labels are no longer in bold by default
+ - Now has a companion Mahara ePorfolio theme so you can keep them looking alike - https://github.com/moodleman/mahara-theme_essential
+ - Further minor bug fixes and tidy up.
+   
  New in 2.5.4
  ========================
  - Display current enrolled courses in dropdown menu and choose terminology (modules, courses, classes or units).

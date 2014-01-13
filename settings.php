@@ -57,12 +57,54 @@ defined('MOODLE_INTERNAL') || die;
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
     
+    // Font Selector.
+    $name = 'theme_essential/fontselect';
+    $title = get_string('fontselect' , 'theme_essential');
+    $description = get_string('fontselectdesc', 'theme_essential');
+    $default = '1';
+    $choices = array(
+    	'1'=>'Oswald & PT Sans', 
+    	'2'=>'Lobster & Cabin', 
+    	'3'=>'Raleway & Goudy', 
+    	'4'=>'Allerta & Crimson Text', 
+    	'5'=>'Arvo & PT Sans',
+    	'6'=>'Dancing Script & Josefin Sans',
+    	'7'=>'Allan & Cardo',
+    	'8'=>'Molengo & Lekton',
+    	'9'=>'Droid Serif & Droid Sans',
+    	'10'=>'Corbin & Nobile',
+    	'11'=>'Ubuntu & Vollkorn',
+    	'12'=>'Bree Serif & Open Sans', 
+    	'13'=>'Bevan & Pontano Sans', 
+    	'14'=>'Abril Fatface & Average', 
+    	'15'=>'Playfair Display and Muli', 
+    	'16'=>'Sansita One & Kameron',
+    	'17'=>'Istok Web & Lora',
+    	'18'=>'Pacifico & Arimo',
+    	'19'=>'Nixie One & Ledger',
+    	'20'=>'Cantata One & Imprima',
+    	'21'=>'Rancho & Gudea',
+    	'22'=>'DISABLE Google Fonts');
+    $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
     // User picture in header setting.
     $name = 'theme_essential/headerprofilepic';
     $title = get_string('headerprofilepic', 'theme_essential');
     $description = get_string('headerprofilepicdesc', 'theme_essential');
     $default = true;
     $setting = new admin_setting_configcheckbox($name, $title, $description, $default, true, false);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    // Fixed or Variable Width.
+    $name = 'theme_essential/pagewidth';
+    $title = get_string('pagewidth', 'theme_essential');
+    $description = get_string('pagewidthdesc', 'theme_essential');
+    $default = 1200;
+    $choices = array(1900=>get_string('fixedwidthwide','theme_essential'), 1200=>get_string('fixedwidthnarrow','theme_essential'), 100=>get_string('variablewidth','theme_essential'));
+    $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
     
@@ -80,14 +122,6 @@ defined('MOODLE_INTERNAL') || die;
     $title = get_string('editicons', 'theme_essential');
     $description = get_string('editiconsdesc', 'theme_essential');
     $setting = new admin_setting_configcheckbox($name, $title, $description, 0);
-    $temp->add($setting);
-    
-    //Include the Autohide css rules
-    $name = 'theme_essential/autohide';
-    $visiblename = get_string('autohide', 'theme_essential');
-    $title = get_string('autohide', 'theme_essential');
-    $description = get_string('autohidedesc', 'theme_essential');
-    $setting = new admin_setting_configcheckbox($name, $visiblename, $description, 0);
     $temp->add($setting);
     
     // Performance Information Display.
@@ -231,6 +265,50 @@ defined('MOODLE_INTERNAL') || die;
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
     
+    //This is the descriptor for the Slideshow
+    $name = 'theme_essential/slidecolorinfo';
+    $heading = get_string('slidecolors', 'theme_essential');
+    $information = get_string('slidecolorsdesc', 'theme_essential');
+    $setting = new admin_setting_heading($name, $heading, $information);
+    $temp->add($setting);
+    
+      // Slide Header colour setting.
+    $name = 'theme_essential/slideheadercolor';
+    $title = get_string('slideheadercolor', 'theme_essential');
+    $description = get_string('slideheadercolordesc', 'theme_essential');
+    $default = '#30add1';
+    $previewconfig = null;
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    // Slide Text colour setting.
+    $name = 'theme_essential/slidecolor';
+    $title = get_string('slidecolor', 'theme_essential');
+    $description = get_string('slidecolordesc', 'theme_essential');
+    $default = '#888';
+    $previewconfig = null;
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    // Slide Button colour setting.
+    $name = 'theme_essential/slidebuttoncolor';
+    $title = get_string('slidebuttoncolor', 'theme_essential');
+    $description = get_string('slidebuttoncolordesc', 'theme_essential');
+    $default = '#30add1';
+    $previewconfig = null;
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default, $previewconfig);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+        //This is the descriptor for the Slideshow
+    $name = 'theme_essential/footercolorinfo';
+    $heading = get_string('footercolors', 'theme_essential');
+    $information = get_string('footercolorsdesc', 'theme_essential');
+    $setting = new admin_setting_heading($name, $heading, $information);
+    $temp->add($setting);
+    
     // Footer background colour setting.
     $name = 'theme_essential/footercolor';
     $title = get_string('footercolor', 'theme_essential');
@@ -301,15 +379,40 @@ defined('MOODLE_INTERNAL') || die;
     $temp->add(new admin_setting_heading('theme_essential_slideshow', get_string('slideshowheadingsub', 'theme_essential'),
             format_text(get_string('slideshowdesc' , 'theme_essential'), FORMAT_MARKDOWN)));
     
+    // Toggle Slideshow.
+    $name = 'theme_essential/toggleslideshow';
+    $title = get_string('toggleslideshow' , 'theme_essential');
+    $description = get_string('toggleslideshowdesc', 'theme_essential');
+    $alwaysdisplay = get_string('alwaysdisplay', 'theme_essential');
+    $displaybeforelogin = get_string('displaybeforelogin', 'theme_essential');
+    $displayafterlogin = get_string('displayafterlogin', 'theme_essential');
+    $dontdisplay = get_string('dontdisplay', 'theme_essential');
+    $default = 'alwaysdisplay';
+    $choices = array('1'=>$alwaysdisplay, '2'=>$displaybeforelogin, '3'=>$displayafterlogin, '0'=>$dontdisplay);
+    $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
     
     // Hide slideshow on phones.
     $name = 'theme_essential/hideonphone';
     $title = get_string('hideonphone' , 'theme_essential');
     $description = get_string('hideonphonedesc', 'theme_essential');
-    $display = get_string('display', 'theme_essential');
+    $display = get_string('alwaysdisplay', 'theme_essential');
     $dontdisplay = get_string('dontdisplay', 'theme_essential');
     $default = 'display';
     $choices = array(''=>$display, 'hidden-phone'=>$dontdisplay);
+    $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    // Slideshow Design Picker.
+    $name = 'theme_essential/slideshowvariant';
+    $title = get_string('slideshowvariant' , 'theme_essential');
+    $description = get_string('slideshowvariantdesc', 'theme_essential');
+    $slideshow1 = get_string('slideshow1', 'theme_essential');
+    $slideshow2 = get_string('slideshow2', 'theme_essential');
+    $default = 'slideshow1';
+    $choices = array('1'=>$slideshow1, '2'=>$slideshow2);
     $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
@@ -514,6 +617,32 @@ defined('MOODLE_INTERNAL') || die;
     $setting = new admin_setting_confightmleditor($name, $title, $description, $default);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
+    
+    // Frontpage Block alignment.
+    $name = 'theme_essential/frontpageblocks';
+    $title = get_string('frontpageblocks' , 'theme_essential');
+    $description = get_string('frontpageblocksdesc', 'theme_essential');
+    $left = get_string('left', 'theme_essential');
+    $right = get_string('right', 'theme_essential');
+    $default = 'left';
+    $choices = array('1'=>$left, '0'=>$right);
+    $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
+    
+    // Toggle Frontpage Middle Blocks
+    $name = 'theme_essential/frontpagemiddleblocks';
+    $title = get_string('frontpagemiddleblocks' , 'theme_essential');
+    $description = get_string('frontpagemiddleblocksdesc', 'theme_essential');
+    $alwaysdisplay = get_string('alwaysdisplay', 'theme_essential');
+    $displaybeforelogin = get_string('displaybeforelogin', 'theme_essential');
+    $displayafterlogin = get_string('displayafterlogin', 'theme_essential');
+    $dontdisplay = get_string('dontdisplay', 'theme_essential');
+    $default = 'display';
+    $choices = array('1'=>$alwaysdisplay, '2'=>$displaybeforelogin, '3'=>$displayafterlogin, '0'=>$dontdisplay);
+    $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $temp->add($setting);
         
     $ADMIN->add('theme_essential', $temp);
     
@@ -527,10 +656,12 @@ defined('MOODLE_INTERNAL') || die;
     $name = 'theme_essential/togglemarketing';
     $title = get_string('togglemarketing' , 'theme_essential');
     $description = get_string('togglemarketingdesc', 'theme_essential');
-    $display = get_string('display', 'theme_essential');
+    $alwaysdisplay = get_string('alwaysdisplay', 'theme_essential');
+    $displaybeforelogin = get_string('displaybeforelogin', 'theme_essential');
+    $displayafterlogin = get_string('displayafterlogin', 'theme_essential');
     $dontdisplay = get_string('dontdisplay', 'theme_essential');
     $default = 'display';
-    $choices = array('1'=>$display, '0'=>$dontdisplay);
+    $choices = array('1'=>$alwaysdisplay, '2'=>$displaybeforelogin, '3'=>$displayafterlogin, '0'=>$dontdisplay);
     $setting = new admin_setting_configselect($name, $title, $description, $default, $choices);
     $setting->set_updatedcallback('theme_reset_all_caches');
     $temp->add($setting);
